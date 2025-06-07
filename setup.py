@@ -7,7 +7,7 @@ long_description = (current_directory / "README.md").read_text()
 
 setup(
     name="terminological_ontological_coverage",
-    version="1.0",
+    version="1.0.1",
     packages=find_packages(),
     install_requires=[
         "PyMuPDF",   # This installs the `fitz` package
