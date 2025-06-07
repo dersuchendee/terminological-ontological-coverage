@@ -44,11 +44,7 @@ def keyword_in_ontology(keyword: str, graph: Graph) -> int:
 
 
 def generate_keywords_rake(text: str) -> List[Tuple[float, str]]:
-    import os
-    current_dir = os.path.dirname(__file__)
-    stoplist_path = os.path.join(current_dir, "SmartStoplist.txt")
-    
-    rake = RAKE(stopwords_path=stoplist_path)
+    rake = RAKE()  # Uses default built-in stopwords
     text = text.replace("\n", " ")
     keywords_with_scores = rake.exec(text)
     keywords_with_scores = [(score, keyword) for keyword, score in keywords_with_scores
