@@ -9,6 +9,10 @@ setup(
     name="terminological_ontological_coverage",
     version="1.0.1",
     packages=find_packages(),
+    package_data={                                           
+        'terminological_ontological_coverage': ['*.txt'],  
+    },                                                       
+    include_package_data=True,                              
     install_requires=[
         "PyMuPDF",   # This installs the `fitz` package
         "rdflib",
