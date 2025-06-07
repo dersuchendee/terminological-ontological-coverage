@@ -45,32 +45,24 @@ def keyword_in_ontology(keyword: str, graph: Graph) -> int:
 
 def generate_keywords_rake(text: str) -> List[Tuple[float, str]]:
     import os
-    import pkg_resources
-    
+
     try:
-        # Try to get the stoplist from package data
-        try:
-            stoplist_path = pkg_resources.resource_filename(
-                'terminological_ontological_coverage', 
-                'SmartStoplist.txt'
-            )
-            if os.path.exists(stoplist_path):
-                rake = RAKE(stoplist_path)
-            else:
-                raise FileNotFoundError("Stoplist not found")
-        except:
-            # Fallback: try relative to current file
-            current_dir = os.path.dirname(__file__)
-            stoplist_path = os.path.join(current_dir, "SmartStoplist.txt")
-            if os.path.exists(stoplist_path):
-                rake = RAKE(stoplist_path)
-            else:
-                # Final fallback: use default RAKE
-                rake = RAKE()
+        # Method 1: Try to find the stoplist in the package directory
+        current_dir = os.path.dirname(__file__)
+        stoplist_path = os.path.join(current_dir, "SmartStoplist.txt")
+
+        if os.path.exists(stoplist_path):
+            print(f"Using stoplist from: {stoplist_path}")
+            rake = RAKE(stoplist_path)
+        else:
+            print("SmartStoplist.txt not found, using RAKE default stopwords")
+            rake = RAKE()
+
     except Exception as e:
-        print(f"RAKE initialization failed: {e}, using default stopwords")
+        print(f"RAKE initialization error: {e}")
+        print("Falling back to default RAKE")
         rake = RAKE()
-    
+
     text = text.replace("\n", " ")
     keywords_with_scores = rake.exec(text)
     keywords_with_scores = [(score, keyword) for keyword, score in keywords_with_scores
