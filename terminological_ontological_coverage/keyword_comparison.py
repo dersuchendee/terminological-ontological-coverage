@@ -2,7 +2,15 @@ import fitz  # PyMuPDF
 from rdflib import Graph, RDFS
 from rake.rake import RAKE
 from rake_nltk import Rake
-from keybert import KeyBERT
+#from keybert import KeyBERT
+try:
+    from keybert import KeyBERT
+    KEYBERT_AVAILABLE = True
+except:
+    KEYBERT_AVAILABLE = False
+    class KeyBERT:
+        def extract_keywords(self, *args, **kwargs):
+            raise RuntimeError("KeyBERT disabled due to TensorFlow issues")
 from typing import List, Tuple, Dict, Union, Callable
 import pandas as pd
 import argparse
